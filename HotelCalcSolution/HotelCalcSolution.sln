@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelCalc", "..\src\HotelCalc\HotelCalc.csproj", "{9ED6FED5-2EBF-421B-A639-DC040FA3C134}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelCalc.Tests", "..\src\HotelCalc.Tests\HotelCalc.Tests.csproj", "{DCEFEE27-477C-424A-959D-70ECFA19CF76}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9ED6FED5-2EBF-421B-A639-DC040FA3C134}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ED6FED5-2EBF-421B-A639-DC040FA3C134}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ED6FED5-2EBF-421B-A639-DC040FA3C134}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ED6FED5-2EBF-421B-A639-DC040FA3C134}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCEFEE27-477C-424A-959D-70ECFA19CF76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCEFEE27-477C-424A-959D-70ECFA19CF76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCEFEE27-477C-424A-959D-70ECFA19CF76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCEFEE27-477C-424A-959D-70ECFA19CF76}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B6A9811-F55E-46F2-BBF6-9BC374651052}
+	EndGlobalSection
+EndGlobal
