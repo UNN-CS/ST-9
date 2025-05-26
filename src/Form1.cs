@@ -17,13 +17,11 @@ namespace WinFormsApp
 
         public Form1()
         {
-            // свойства формы
             Text = "Гостиничный калькулятор";
             StartPosition = FormStartPosition.CenterScreen;
             Width = 400;
             Height = 350;
 
-            // helper для добавления метки + текстового поля
             void AddField(string labelText, int top, out TextBox txt, string name)
             {
                 var lbl = new Label
@@ -48,7 +46,6 @@ namespace WinFormsApp
             AddField("Категория номера (1,2,3)", 60, out txtCategory, "txtCategory");
             AddField("Вместимость номера (1–3 чел.)", 100, out txtCapacity, "txtCapacity");
 
-            // чекбоксы для опций
             chkSafe = new CheckBox
             {
                 Text = "Сейф",
@@ -69,7 +66,6 @@ namespace WinFormsApp
             };
             Controls.Add(chkBreakfast);
 
-            // поле для результата
             var lblSum = new Label
             {
                 Text = "Сумма:",
@@ -88,7 +84,6 @@ namespace WinFormsApp
             Controls.Add(lblSum);
             Controls.Add(txtSum);
 
-            // кнопка «Рассчитать»
             btnCalc = new Button
             {
                 Text = "Рассчитать",
