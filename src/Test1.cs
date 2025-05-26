@@ -21,7 +21,7 @@ namespace HotelTestProject {
         [TestCleanup]
         public void Cleanup() { driver?.Quit(); }
 
-        private void Fill(string days = "1", string category = "˝ÍÓÌÓÏ", string capacity = "1", string safe = "ÌÂÚ", string breakfast = "ÌÂÚ") {
+        private void Fill(string days = "1", string category = "—ç–∫–æ–Ω–æ–º", string capacity = "1", string safe = "–Ω–µ—Ç", string breakfast = "–Ω–µ—Ç") {
             driver.FindElementByAccessibilityId("textBoxDays").Clear();
             driver.FindElementByAccessibilityId("textBoxDays").SendKeys(days);
 
@@ -49,7 +49,7 @@ namespace HotelTestProject {
 
         [TestMethod]
         public void Test_SuccessExpensive() {
-            Fill("10", "Î˛ÍÒ", "3", "‰‡", "‰‡");
+            Fill("10", "–ª—é–∫—Å", "3", "–¥–∞", "–¥–∞");
             string result = driver.FindElementByAccessibilityId("textBoxSum").Text;
             Assert.AreEqual("9250,00", result);
         }
@@ -58,63 +58,63 @@ namespace HotelTestProject {
         public void Test_Empty() {
             Fill("", "", "", "", "");
             string result = driver.FindElementByAccessibilityId("textBoxSum").Text;
-            Assert.AreEqual("Œÿ»¡ ¿", result.Substring(0,6));
+            Assert.AreEqual("–û–®–ò–ë–ö–ê", result.Substring(0,6));
         }
 
         [TestMethod]
         public void Test_ZeroDays() {
             Fill(days: "0");
             string result = driver.FindElementByAccessibilityId("textBoxSum").Text;
-            Assert.AreEqual("Œÿ»¡ ¿ ƒÕ≈…", result);
+            Assert.AreEqual("–û–®–ò–ë–ö–ê –î–ù–ï–ô", result);
         }
 
         [TestMethod]
         public void Test_NegativeDays() {
             Fill(days: "-1");
             string result = driver.FindElementByAccessibilityId("textBoxSum").Text;
-            Assert.AreEqual("Œÿ»¡ ¿ ƒÕ≈…", result);
+            Assert.AreEqual("–û–®–ò–ë–ö–ê –î–ù–ï–ô", result);
         }
 
         [TestMethod]
         public void Test_WrongCategory() {
             Fill(category: "guhhh");
             string result = driver.FindElementByAccessibilityId("textBoxSum").Text;
-            Assert.AreEqual("Œÿ»¡ ¿  ¿“≈√Œ–»»", result);
+            Assert.AreEqual("–û–®–ò–ë–ö–ê –ö–ê–¢–ï–ì–û–†–ò–ò", result);
         }
 
         [TestMethod]
         public void Test_ZeroCapacity() {
             Fill(capacity: "0");
             string result = driver.FindElementByAccessibilityId("textBoxSum").Text;
-            Assert.AreEqual("Œÿ»¡ ¿ ¬Ã≈—“»ÃŒ—“»", result);
+            Assert.AreEqual("–û–®–ò–ë–ö–ê –í–ú–ï–°–¢–ò–ú–û–°–¢–ò", result);
         }
 
         [TestMethod]
         public void Test_NegativeCapacity() {
             Fill(capacity: "-1");
             string result = driver.FindElementByAccessibilityId("textBoxSum").Text;
-            Assert.AreEqual("Œÿ»¡ ¿ ¬Ã≈—“»ÃŒ—“»", result);
+            Assert.AreEqual("–û–®–ò–ë–ö–ê –í–ú–ï–°–¢–ò–ú–û–°–¢–ò", result);
         }
 
         [TestMethod]
         public void Test_TooMuchCapacity() {
             Fill(capacity: "10");
             string result = driver.FindElementByAccessibilityId("textBoxSum").Text;
-            Assert.AreEqual("Œÿ»¡ ¿ ¬Ã≈—“»ÃŒ—“»", result);
+            Assert.AreEqual("–û–®–ò–ë–ö–ê –í–ú–ï–°–¢–ò–ú–û–°–¢–ò", result);
         }
 
         [TestMethod]
         public void Test_WrongSafe() {
             Fill(safe: "guhhh");
             string result = driver.FindElementByAccessibilityId("textBoxSum").Text;
-            Assert.AreEqual("Œÿ»¡ ¿ —≈…‘¿", result);
+            Assert.AreEqual("–û–®–ò–ë–ö–ê –°–ï–ô–§–ê", result);
         }
 
         [TestMethod]
         public void Test_WrongBreakfast() {
             Fill(breakfast: "guhhh");
             string result = driver.FindElementByAccessibilityId("textBoxSum").Text;
-            Assert.AreEqual("Œÿ»¡ ¿ «¿¬“–¿ ¿", result);
+            Assert.AreEqual("–û–®–ò–ë–ö–ê –ó–ê–í–¢–†–ê–ö–ê", result);
         }
 
     }
