@@ -10,7 +10,7 @@ namespace WinForms
         private void Change(object sender, EventArgs e)
         {
             int days_c = (int)days.Value;
-            string type_r = typeOfRoom.SelectedItem?.ToString() ?? "Эконом";
+            string type_r = typeOfRoom.SelectedItem?.ToString() ?? "ГќГЄГ®Г­Г®Г¬";
             int type_c = 0;
             roomCount.Text = "1";
             if (type_r == null) type_r = "";
@@ -18,23 +18,23 @@ namespace WinForms
             {
                 switch (type_r)
                 {
-                    case "Эконом":
+                    case "ГќГЄГ®Г­Г®Г¬":
                         {
                             type_c = 700;
                             break;
                         }
-                    case "Средний":
+                    case "Г‘Г°ГҐГ¤Г­ГЁГ©":
                         {
                             type_c = 1000;
                             break;
                         }
-                    case "Бизнес":
+                    case "ГЃГЁГ§Г­ГҐГ±":
                         {
                             type_c = 2000;
                             roomCount.Text = "2";
                             break;
                         }
-                    case "Люкс":
+                    case "Г‹ГѕГЄГ±":
                         {
                             type_c = 5000;
                             roomCount.Text = "2";
@@ -44,43 +44,43 @@ namespace WinForms
                 }
             }
 
-            string beds_s = beds.SelectedItem?.ToString() ?? "одна односпальная";
+            string beds_s = beds.SelectedItem?.ToString() ?? "Г®Г¤Г­Г  Г®Г¤Г­Г®Г±ГЇГ Г«ГјГ­Г Гї";
             double beds_c = 0;
 
-            //{ "одна односпальная", "одна двуспальная", "две односпальных", "две двуспальных",
-            //"три односпальных", "одная двуспальная и одна односпальная" });
+            //{ "Г®Г¤Г­Г  Г®Г¤Г­Г®Г±ГЇГ Г«ГјГ­Г Гї", "Г®Г¤Г­Г  Г¤ГўГіГ±ГЇГ Г«ГјГ­Г Гї", "Г¤ГўГҐ Г®Г¤Г­Г®Г±ГЇГ Г«ГјГ­Г»Гµ", "Г¤ГўГҐ Г¤ГўГіГ±ГЇГ Г«ГјГ­Г»Гµ",
+            //"ГІГ°ГЁ Г®Г¤Г­Г®Г±ГЇГ Г«ГјГ­Г»Гµ", "Г®Г¤Г­Г Гї Г¤ГўГіГ±ГЇГ Г«ГјГ­Г Гї ГЁ Г®Г¤Г­Г  Г®Г¤Г­Г®Г±ГЇГ Г«ГјГ­Г Гї" });
             if (beds_s == null) beds_s = "";
             else
             {
                 switch (beds_s)
                 {
-                    case "одна односпальная":
+                    case "Г®Г¤Г­Г  Г®Г¤Г­Г®Г±ГЇГ Г«ГјГ­Г Гї":
                         {
                             beds_c = 0.7;
                             break;
                         }
-                    case "одна двуспальная":
+                    case "Г®Г¤Г­Г  Г¤ГўГіГ±ГЇГ Г«ГјГ­Г Гї":
                         {
                             beds_c = 1;
-                            //MessageBox.Show("Выбран элемент: " + beds.SelectedItem?.ToString());
+                            //MessageBox.Show("Г‚Г»ГЎГ°Г Г­ ГЅГ«ГҐГ¬ГҐГ­ГІ: " + beds.SelectedItem?.ToString());
                             break;
                         }
-                    case "две односпальных":
+                    case "Г¤ГўГҐ Г®Г¤Г­Г®Г±ГЇГ Г«ГјГ­Г»Гµ":
                         {
                             beds_c = 2.5;
                             break;
                         }
-                    case "две двуспальных":
+                    case "Г¤ГўГҐ Г¤ГўГіГ±ГЇГ Г«ГјГ­Г»Гµ":
                         {
                             beds_c = 3;
                             break;
                         }
-                    case "три односпальных":
+                    case "ГІГ°ГЁ Г®Г¤Г­Г®Г±ГЇГ Г«ГјГ­Г»Гµ":
                         {
                             beds_c = 3;
                             break;
                         }
-                    case "одна двуспальная и одна односпальная":
+                    case "Г®Г¤Г­Г  Г¤ГўГіГ±ГЇГ Г«ГјГ­Г Гї ГЁ Г®Г¤Г­Г  Г®Г¤Г­Г®Г±ГЇГ Г«ГјГ­Г Гї":
                         {
                             beds_c = 3;
                             break;
@@ -88,8 +88,6 @@ namespace WinForms
                     default:
                         {
                             beds_c = 1;
-                            label1.Text = beds_s + " ee ";
-
                             break;
                         }
                 }
