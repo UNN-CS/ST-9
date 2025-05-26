@@ -1,0 +1,108 @@
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium.Appium;
+using OpenQA.Selenium.Appium.Windows;
+
+namespace HotelCalculatorTests
+{
+    [TestClass]
+    public class Tests
+    {
+        private const string DriverUrl = "http://127.0.0.1:4723/";
+        private const string AppPath = @"D:\проектирование\ST-9\WinFormsApp1\WinFormsApp1\bin\Debug\net8.0-windows\WinFormsApp1.exe";
+        private WindowsDriver<WindowsElement> driver;
+
+        [TestInitialize]
+        public void Init()
+        {
+            var options = new AppiumOptions();
+            options.AddAdditionalCapability("app", AppPath);
+            options.AddAdditionalCapability("ms:waitForAppLaunch", "5");
+            options.AddAdditionalCapability("deviceName", "WindowsPC");
+
+            driver = new WindowsDriver<WindowsElement>(new Uri(DriverUrl), options);
+            Assert.IsNotNull(driver);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            driver.Quit();
+        }
+
+
+        [TestMethod]
+        public void Test_Econom_NoExtras()
+        {
+            driver.FindElementByAccessibilityId("txtDays").SendKeys("1");
+            driver.FindElementByAccessibilityId("txtCategory").SendKeys("1");
+            driver.FindElementByAccessibilityId("txtCapacity").SendKeys("1");
+            driver.FindElementByAccessibilityId("txtSafe").SendKeys("нет");
+            driver.FindElementByAccessibilityId("txtBreakfast").SendKeys("нет");
+            driver.FindElementByAccessibilityId("btnCalculate").Click();
+
+            var sum = driver.FindElementByAccessibilityId("txtSum").Text;
+            Assert.AreEqual("5000", sum);
+        }
+
+
+        [TestMethod]
+        public void Test_Standard_WithSafe()
+        {
+            driver.FindElementByAccessibilityId("txtDays").SendKeys("2");
+            driver.FindElementByAccessibilityId("txtCategory").SendKeys("2");
+            driver.FindElementByAccessibilityId("txtCapacity").SendKeys("2");
+            driver.FindElementByAccessibilityId("txtSafe").SendKeys("да");
+            driver.FindElementByAccessibilityId("txtBreakfast").SendKeys("нет");
+            driver.FindElementByAccessibilityId("btnCalculate").Click();
+
+            var sum = driver.FindElementByAccessibilityId("txtSum").Text;
+            Assert.AreEqual("29600", sum);
+        }
+
+
+        [TestMethod]
+        public void Test_Luxury_WithBreakfast()
+        {
+            driver.FindElementByAccessibilityId("txtDays").SendKeys("3");
+            driver.FindElementByAccessibilityId("txtCategory").SendKeys("3");
+            driver.FindElementByAccessibilityId("txtCapacity").SendKeys("3");
+            driver.FindElementByAccessibilityId("txtSafe").SendKeys("нет");
+            driver.FindElementByAccessibilityId("txtBreakfast").SendKeys("да");
+            driver.FindElementByAccessibilityId("btnCalculate").Click();
+
+            var sum = driver.FindElementByAccessibilityId("txtSum").Text;
+            Assert.AreEqual("84600", sum);
+        }
+
+        [TestMethod]
+        public void Test_Standard_WithBothExtras()
+        {
+            driver.FindElementByAccessibilityId("txtDays").SendKeys("5");
+            driver.FindElementByAccessibilityId("txtCategory").SendKeys("2");
+            driver.FindElementByAccessibilityId("txtCapacity").SendKeys("1");
+            driver.FindElementByAccessibilityId("txtSafe").SendKeys("да");
+            driver.FindElementByAccessibilityId("txtBreakfast").SendKeys("да");
+            driver.FindElementByAccessibilityId("btnCalculate").Click();
+
+            var sum = driver.FindElementByAccessibilityId("txtSum").Text;
+            Assert.AreEqual("45000", sum);
+        }
+
+        
+        [TestMethod]
+        public void Test_Econom_MaxCapacity_WithExtras()
+        {
+            driver.FindElementByAccessibilityId("txtDays").SendKeys("10");
+            driver.FindElementByAccessibilityId("txtCategory").SendKeys("1");
+            driver.FindElementByAccessibilityId("txtCapacity").SendKeys("3");
+            driver.FindElementByAccessibilityId("txtSafe").SendKeys("да");
+            driver.FindElementByAccessibilityId("txtBreakfast").SendKeys("да");
+            driver.FindElementByAccessibilityId("btnCalculate").Click();
+
+            var sum = driver.FindElementByAccessibilityId("txtSum").Text;
+            Assert.AreEqual("170000", sum);
+        }
+    }
+}
