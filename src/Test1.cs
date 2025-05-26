@@ -43,6 +43,18 @@ namespace CalculatorTest
 
         [TestMethod]
         [DoNotParallelize]
+        public void TestEconomyRoomWithExtras()
+        {
+            SetNumericValue("numericDays", 1);
+            SetComboBoxValue("comboCategoryBox", 3);
+            SetComboBoxValue("comboCapacity", 1);
+            CheckSafe();
+            CheckBreakfast();
+            CalculateAndAssert("3 300 R");
+        }
+
+        [TestMethod]
+        [DoNotParallelize]
         public void TestStandardRoomWithCapacity()
         {
             SetNumericValue("numericDays", 3);
