@@ -16,7 +16,7 @@ namespace TestProject1
         public void Setup()
         {
             var appCapabilities = new AppiumOptions();
-            appCapabilities.AddAdditionalCapability("app", @"C:\sema\ST-9\WinFormsApp1\WinFormsApp1\bin\Debug\net6.0-windows\WinFormsApp1.exe");
+            appCapabilities.AddAdditionalCapability("app", @"C:\andre\ST-9\WinFormsApp1\WinFormsApp1\bin\Debug\net6.0-windows\WinFormsApp1.exe");
             appCapabilities.AddAdditionalCapability("ms:waitForAppLaunch", "5");
             appCapabilities.AddAdditionalCapability("deviceName", "WindowsPC");
 
@@ -34,7 +34,7 @@ namespace TestProject1
         {
             // Arrange
             EnterDays("5");
-            SelectCategory("1 - Эконом");
+            SelectCategory("1");
             SelectCapacity("1");
             UncheckAllExtras();
 
@@ -50,7 +50,7 @@ namespace TestProject1
         {
             // Arrange
             EnterDays("3");
-            SelectCategory("2 - Стандарт");
+            SelectCategory("2");
             SelectCapacity("2");
             CheckBreakfast();
             UncheckSafe();
@@ -67,7 +67,7 @@ namespace TestProject1
         {
             // Arrange
             EnterDays("2");
-            SelectCategory("3 - Люкс");
+            SelectCategory("3");
             SelectCapacity("3");
             CheckAllExtras();
 
@@ -83,7 +83,7 @@ namespace TestProject1
         {
             // Arrange
             EnterDays("1");
-            SelectCategory("1 - Эконом");
+            SelectCategory("1");
             SelectCapacity("1");
             CheckSafe();
             UncheckBreakfast();
@@ -100,7 +100,7 @@ namespace TestProject1
         {
             // Arrange
             EnterDays("3");
-            SelectCategory("1 - Эконом");
+            SelectCategory("1");
             SelectCapacity("1");
             CheckSafe();
             UncheckBreakfast();
