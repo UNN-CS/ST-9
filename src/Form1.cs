@@ -14,12 +14,12 @@ namespace HotelCalculator
                 int days = int.Parse(textBox_days.Text);
                 int category = int.Parse(textBox_category.Text);
                 int capacity = int.Parse(textBox_capacity.Text);
-                bool safe = textBox_safe.Text == "да";
-                bool breakfast = textBox_breakfast.Text == "да";
+                bool safe = textBox_safe.Text == "РґР°";
+                bool breakfast = textBox_breakfast.Text == "РґР°";
 
                 if ((days <= 0) || (category < 1) || (category > 3) || (capacity < 1) || (capacity > 3))
                 {
-                    MessageBox.Show("Данные введены некорректно", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Р”Р°РЅРЅС‹Рµ РІРІРµРґРµРЅС‹ РЅРµРєРѕСЂСЂРµРєС‚РЅРѕ", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -44,7 +44,7 @@ namespace HotelCalculator
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
