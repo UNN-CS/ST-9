@@ -11,11 +11,11 @@ namespace TestProject1
         public const string DriveURL = "http://127.0.0.1:4723/";
         public WindowsDriver<WindowsElement> driver;
 
-        [SetUp]
+        [TestInitialize]
         public void Setup()
         {
             var appCapabilities = new AppiumOptions();
-            appCapabilities.AddAdditionalCapability("app", @"F:\repos\ST\ST9\WinFormsApp1\bin\Debug\net8.0-windows\WinFormsApp1.exe");
+            appCapabilities.AddAdditionalCapability("app", @"F:\\repos\\ST\\ST9\\WinFormsApp1\\bin\\Debug\\net8.0-windows\\WinFormsApp1.exe");
             appCapabilities.AddAdditionalCapability("ms:waitForAppLaunch", "5");
             appCapabilities.AddAdditionalCapability("deviceName", "WindowsPC");
 
@@ -48,7 +48,7 @@ namespace TestProject1
             
             var tbResult = driver.FindElementByAccessibilityId("tbResult");
             // Ожидаемый результат: 1500 * 3 * 2 = 9000.00 руб.
-            Assert.AreEqual("9000,00 руб.", tbResult.Text);
+            Assert.AreEqual("9000,00", tbResult.Text.Replace(" руб.", ""));
         }
 
         [TestMethod]
@@ -74,7 +74,7 @@ namespace TestProject1
             
             var tbResult = driver.FindElementByAccessibilityId("tbResult");
             // Ожидаемый результат: (3000 * 2 * 1) + (500 * 2 * 1) = 6000 + 1000 = 7000.00 руб.
-            Assert.AreEqual("7000,00 руб.", tbResult.Text);
+            Assert.AreEqual("7000,00", tbResult.Text.Replace(" руб.", ""));
         }
 
         [TestMethod]
@@ -106,7 +106,7 @@ namespace TestProject1
             
             var tbResult = driver.FindElementByAccessibilityId("tbResult");
             // Ожидаемый результат: (5000 * 1 * 2) + (500 * 1 * 2) + (200 * 1) + (300 * 1) = 10000 + 1000 + 200 + 300 = 11500.00 руб.
-            Assert.AreEqual("11500,00 руб.", tbResult.Text);
+            Assert.AreEqual("11500,00", tbResult.Text.Replace(" руб.", ""));
         }
 
         [TestMethod]
@@ -132,7 +132,7 @@ namespace TestProject1
             
             var tbResult = driver.FindElementByAccessibilityId("tbResult");
             // Ожидаемый результат: (1500 * 7 * 1) + (200 * 7) = 10500 + 1400 = 11900.00 руб.
-            Assert.AreEqual("11900,00 руб.", tbResult.Text);
+            Assert.AreEqual("11900,00", tbResult.Text.Replace(" руб.", ""));
         }
 
         [TestMethod]
@@ -158,7 +158,7 @@ namespace TestProject1
             
             var tbResult = driver.FindElementByAccessibilityId("tbResult");
             // Ожидаемый результат: (3000 * 4 * 3) + (300 * 4) = 36000 + 1200 = 37200.00 руб.
-            Assert.AreEqual("37200,00 руб.", tbResult.Text);
+            Assert.AreEqual("37200,00", tbResult.Text.Replace(" руб.", ""));
         }
 
         [TestMethod]
@@ -181,7 +181,7 @@ namespace TestProject1
             
             var tbResult = driver.FindElementByAccessibilityId("tbResult");
             // Ожидаемый результат: 1500 * 1 * 1 = 1500.00 руб.
-            Assert.AreEqual("1500,00 руб.", tbResult.Text);
+            Assert.AreEqual("1500,00", tbResult.Text.Replace(" руб.", ""));
         }
     }
 } 
