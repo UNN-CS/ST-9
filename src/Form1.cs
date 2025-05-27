@@ -34,7 +34,6 @@ namespace HotelCalculator
                         base_cost = 300; break;
                 }
 
-
                 int sum = base_cost * capacity * days;
                 if (safe)
                     sum += 10 * days;
