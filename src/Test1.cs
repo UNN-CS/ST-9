@@ -22,7 +22,7 @@ namespace HotelCalculatorTests
             appCapabilities.AddAdditionalCapability("deviceName", "WindowsPC");
 
             driver = new WindowsDriver<WindowsElement>(new Uri(DriveURL), appCapabilities);
-            Thread.Sleep(2000); // Дополнительная задержка
+            Thread.Sleep(2000); // Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅР°СЏ Р·Р°РґРµСЂР¶РєР°
         }
 
         [TestCleanup]
@@ -49,51 +49,51 @@ namespace HotelCalculatorTests
             driver.FindElementByAccessibilityId("txtBreakfast").SendKeys(breakfast);
 
             driver.FindElementByAccessibilityId("btnCalculate").Click();
-            Thread.Sleep(1000); // Задержка для обновления UI
+            Thread.Sleep(1000); // Р—Р°РґРµСЂР¶РєР° РґР»СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ UI
         }
 
         [TestMethod]
         public void EconomySingleNoExtras()
         {
-            FillAndCalculate("1", "1", "1", "нет", "нет");
+            FillAndCalculate("1", "1", "1", "РЅРµС‚", "РЅРµС‚");
             var totalSum = driver.FindElementByAccessibilityId("txtSum").Text;
-            // 1 день * (1000 (эконом) + (1-1)*500) = 1000.00
-            Assert.AreEqual("1000,00", totalSum, "Базовый расчет для эконома не совпадает");
+            // 1 РґРµРЅСЊ * (1000 (СЌРєРѕРЅРѕРј) + (1-1)*500) = 1000.00
+            Assert.AreEqual("1000,00", totalSum, "Р‘Р°Р·РѕРІС‹Р№ СЂР°СЃС‡РµС‚ РґР»СЏ СЌРєРѕРЅРѕРјР° РЅРµ СЃРѕРІРїР°РґР°РµС‚");
         }
 
         [TestMethod]
         public void StandardDoubleWithSafe()
         {
-            FillAndCalculate("2", "2", "2", "да", "нет");
+            FillAndCalculate("2", "2", "2", "РґР°", "РЅРµС‚");
             var totalSum = driver.FindElementByAccessibilityId("txtSum").Text;
-            // 2 дня * (2000 (стандарт) + (2-1)*500 + 200 (сейф)) = 2 * (2000 + 500 + 200) = 2 * 2700 = 5400.00
-            Assert.AreEqual("5400,00", totalSum, "Расчет для стандарта с сейфом не совпадает");
+            // 2 РґРЅСЏ * (2000 (СЃС‚Р°РЅРґР°СЂС‚) + (2-1)*500 + 200 (СЃРµР№С„)) = 2 * (2000 + 500 + 200) = 2 * 2700 = 5400.00
+            Assert.AreEqual("5400,00", totalSum, "Р Р°СЃС‡РµС‚ РґР»СЏ СЃС‚Р°РЅРґР°СЂС‚Р° СЃ СЃРµР№С„РѕРј РЅРµ СЃРѕРІРїР°РґР°РµС‚");
         }
 
         [TestMethod]
         public void LuxTripleWithBreakfast()
         {
-            FillAndCalculate("3", "3", "3", "нет", "да");
+            FillAndCalculate("3", "3", "3", "РЅРµС‚", "РґР°");
             var totalSum = driver.FindElementByAccessibilityId("txtSum").Text;
-            // 3 дня * (3000 (люкс) + (3-1)*500 + 300 (завтрак)) = 3 * (3000 + 1000 + 300) = 3 * 4300 = 12900.00
-            Assert.AreEqual("12900,00", totalSum, "Расчет для люкса с завтраком не совпадает");
+            // 3 РґРЅСЏ * (3000 (Р»СЋРєСЃ) + (3-1)*500 + 300 (Р·Р°РІС‚СЂР°Рє)) = 3 * (3000 + 1000 + 300) = 3 * 4300 = 12900.00
+            Assert.AreEqual("12900,00", totalSum, "Р Р°СЃС‡РµС‚ РґР»СЏ Р»СЋРєСЃР° СЃ Р·Р°РІС‚СЂР°РєРѕРј РЅРµ СЃРѕРІРїР°РґР°РµС‚");
         }
 
         [TestMethod]
         public void EconomySingleAllExtras()
         {
-            FillAndCalculate("5", "1", "1", "да", "да");
+            FillAndCalculate("5", "1", "1", "РґР°", "РґР°");
             var totalSum = driver.FindElementByAccessibilityId("txtSum").Text;
-            Assert.AreEqual("7500,00", totalSum, "Расчет для эконома со всеми опциями не совпадает");
+            Assert.AreEqual("7500,00", totalSum, "Р Р°СЃС‡РµС‚ РґР»СЏ СЌРєРѕРЅРѕРјР° СЃРѕ РІСЃРµРјРё РѕРїС†РёСЏРјРё РЅРµ СЃРѕРІРїР°РґР°РµС‚");
         }
 
         [TestMethod]
         public void InvalidCategoryInput()
         {
-            FillAndCalculate("1", "4", "1", "нет", "нет");
+            FillAndCalculate("1", "4", "1", "РЅРµС‚", "РЅРµС‚");
             var totalSum = driver.FindElementByAccessibilityId("txtSum").Text;
-            // При некорректной категории поле должно остаться пустым
-            Assert.AreEqual("", totalSum, "Ожидалась пустая строка при некорректной категории");
+            // РџСЂРё РЅРµРєРѕСЂСЂРµРєС‚РЅРѕР№ РєР°С‚РµРіРѕСЂРёРё РїРѕР»Рµ РґРѕР»Р¶РЅРѕ РѕСЃС‚Р°С‚СЊСЃСЏ РїСѓСЃС‚С‹Рј
+            Assert.AreEqual("", totalSum, "РћР¶РёРґР°Р»Р°СЃСЊ РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР° РїСЂРё РЅРµРєРѕСЂСЂРµРєС‚РЅРѕР№ РєР°С‚РµРіРѕСЂРёРё");
         }
     }
-} // swaga
+}
