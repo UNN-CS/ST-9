@@ -14,67 +14,67 @@ namespace WinFormsAppium_2
         {
             try
             {
-                // Получение данных из текстовых полей
-                int days = int.Parse(txtDays.Text); // Количество дней проживания
-                int category = int.Parse(txtCategory.Text); // Категория номера (1, 2, 3)
-                int capacity = int.Parse(txtCapacity.Text); // Вместимость номера (1, 2, 3)
-                bool hasSafe = txtSafe.Text.ToLower() == "да"; // Сейф (да/нет)
-                bool hasBreakfast = txtBreakfast.Text.ToLower() == "да"; // Завтрак (да/нет)
+                // РџРѕР»СѓС‡РµРЅРёРµ РґР°РЅРЅС‹С… РёР· С‚РµРєСЃС‚РѕРІС‹С… РїРѕР»РµР№
+                int days = int.Parse(txtDays.Text); // РљРѕР»РёС‡РµСЃС‚РІРѕ РґРЅРµР№ РїСЂРѕР¶РёРІР°РЅРёСЏ
+                int category = int.Parse(txtCategory.Text); // РљР°С‚РµРіРѕСЂРёСЏ РЅРѕРјРµСЂР° (1, 2, 3)
+                int capacity = int.Parse(txtCapacity.Text); // Р’РјРµСЃС‚РёРјРѕСЃС‚СЊ РЅРѕРјРµСЂР° (1, 2, 3)
+                bool hasSafe = txtSafe.Text.ToLower() == "РґР°"; // РЎРµР№С„ (РґР°/РЅРµС‚)
+                bool hasBreakfast = txtBreakfast.Text.ToLower() == "РґР°"; // Р—Р°РІС‚СЂР°Рє (РґР°/РЅРµС‚)
 
-                // Проверка корректности данных
+                // РџСЂРѕРІРµСЂРєР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚Рё РґР°РЅРЅС‹С…
                 if (days <= 0)
                 {
-                    MessageBox.Show("Количество дней должно быть положительным числом!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("РљРѕР»РёС‡РµСЃС‚РІРѕ РґРЅРµР№ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рј С‡РёСЃР»РѕРј!", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 if (category < 1 || category > 3)
                 {
-                    MessageBox.Show("Категория номера должна быть от 1 до 3!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("РљР°С‚РµРіРѕСЂРёСЏ РЅРѕРјРµСЂР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РѕС‚ 1 РґРѕ 3!", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 if (capacity < 1 || capacity > 3)
                 {
-                    MessageBox.Show("Вместимость номера должна быть от 1 до 3!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Р’РјРµСЃС‚РёРјРѕСЃС‚СЊ РЅРѕРјРµСЂР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РѕС‚ 1 РґРѕ 3!", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (txtSafe.Text.ToLower() != "да" && txtSafe.Text.ToLower() != "нет")
+                if (txtSafe.Text.ToLower() != "РґР°" && txtSafe.Text.ToLower() != "РЅРµС‚")
                 {
-                    MessageBox.Show("Для сейфа укажите 'да' или 'нет'!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Р”Р»СЏ СЃРµР№С„Р° СѓРєР°Р¶РёС‚Рµ 'РґР°' РёР»Рё 'РЅРµС‚'!", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (txtBreakfast.Text.ToLower() != "да" && txtBreakfast.Text.ToLower() != "нет")
+                if (txtBreakfast.Text.ToLower() != "РґР°" && txtBreakfast.Text.ToLower() != "РЅРµС‚")
                 {
-                    MessageBox.Show("Для завтрака укажите 'да' или 'нет'!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Р”Р»СЏ Р·Р°РІС‚СЂР°РєР° СѓРєР°Р¶РёС‚Рµ 'РґР°' РёР»Рё 'РЅРµС‚'!", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Базовая стоимость за день в зависимости от категории
+                // Р‘Р°Р·РѕРІР°СЏ СЃС‚РѕРёРјРѕСЃС‚СЊ Р·Р° РґРµРЅСЊ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РєР°С‚РµРіРѕСЂРёРё
                 double basePrice = category switch
                 {
-                    1 => 1000, // Эконом
-                    2 => 2000, // Стандарт
-                    3 => 3000, // Люкс
+                    1 => 1000, // Р­РєРѕРЅРѕРј
+                    2 => 2000, // РЎС‚Р°РЅРґР°СЂС‚
+                    3 => 3000, // Р›СЋРєСЃ
                     _ => 0
                 };
 
-                // Доплата за вместимость (доп. место +500)
+                // Р”РѕРїР»Р°С‚Р° Р·Р° РІРјРµСЃС‚РёРјРѕСЃС‚СЊ (РґРѕРї. РјРµСЃС‚Рѕ +500)
                 double capacityCost = (capacity - 1) * 500;
 
-                // Доплаты за опции
-                double safeCost = hasSafe ? 200 : 0; // Сейф +200
-                double breakfastCost = hasBreakfast ? 300 : 0; // Завтрак +300
+                // Р”РѕРїР»Р°С‚С‹ Р·Р° РѕРїС†РёРё
+                double safeCost = hasSafe ? 200 : 0; // РЎРµР№С„ +200
+                double breakfastCost = hasBreakfast ? 300 : 0; // Р—Р°РІС‚СЂР°Рє +300
 
-                // Итоговая сумма
+                // РС‚РѕРіРѕРІР°СЏ СЃСѓРјРјР°
                 double total = days * (basePrice + capacityCost + safeCost + breakfastCost);
-                txtSum.Text = total.ToString("F2"); // Вывод суммы с 2 знаками после запятой
+                txtSum.Text = total.ToString("F2"); // Р’С‹РІРѕРґ СЃСѓРјРјС‹ СЃ 2 Р·РЅР°РєР°РјРё РїРѕСЃР»Рµ Р·Р°РїСЏС‚РѕР№
             }
             catch (FormatException)
             {
-                MessageBox.Show("Пожалуйста, введите корректные числовые значения и 'да'/'нет' для опций!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РІРІРµРґРёС‚Рµ РєРѕСЂСЂРµРєС‚РЅС‹Рµ С‡РёСЃР»РѕРІС‹Рµ Р·РЅР°С‡РµРЅРёСЏ Рё 'РґР°'/'РЅРµС‚' РґР»СЏ РѕРїС†РёР№!", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"РџСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР°: {ex.Message}", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
