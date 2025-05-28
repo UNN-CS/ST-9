@@ -14,61 +14,61 @@ namespace HotelCalculator
         {
             try
             {
-                // Получаем данные из полей
+                // РџРѕР»СѓС‡Р°РµРј РґР°РЅРЅС‹Рµ РёР· РїРѕР»РµР№
                 int days = int.Parse(tbDays.Text);
                 int guests = int.Parse(tbGuests.Text);
                 string roomType = cbRoomType.Text.Trim();
 
-                // Базовые цены за номер в сутки
+                // Р‘Р°Р·РѕРІС‹Рµ С†РµРЅС‹ Р·Р° РЅРѕРјРµСЂ РІ СЃСѓС‚РєРё
                 decimal basePrice = 0;
                 switch (roomType)
                 {
-                    case "Эконом":
+                    case "Р­РєРѕРЅРѕРј":
                         basePrice = 1500;
                         break;
-                    case "Стандарт":
+                    case "РЎС‚Р°РЅРґР°СЂС‚":
                         basePrice = 2500;
                         break;
-                    case "Люкс":
+                    case "Р›СЋРєСЃ":
                         basePrice = 4000;
                         break;
                     default:
-                        MessageBox.Show("Неизвестный тип номера. Используйте: Эконом, Стандарт, Люкс", "Ошибка",
+                        MessageBox.Show("РќРµРёР·РІРµСЃС‚РЅС‹Р№ С‚РёРї РЅРѕРјРµСЂР°. РСЃРїРѕР»СЊР·СѓР№С‚Рµ: Р­РєРѕРЅРѕРј, РЎС‚Р°РЅРґР°СЂС‚, Р›СЋРєСЃ", "РћС€РёР±РєР°",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                 }
 
-                // Учитываем количество мест (дополнительная плата за каждое место свыше 1)
-                decimal guestMultiplier = 1 + (guests - 1) * 0.5m; // +50% за каждое дополнительное место
+                // РЈС‡РёС‚С‹РІР°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РјРµСЃС‚ (РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅР°СЏ РїР»Р°С‚Р° Р·Р° РєР°Р¶РґРѕРµ РјРµСЃС‚Рѕ СЃРІС‹С€Рµ 1)
+                decimal guestMultiplier = 1 + (guests - 1) * 0.5m; // +50% Р·Р° РєР°Р¶РґРѕРµ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРµ РјРµСЃС‚Рѕ
 
-                // Базовая стоимость
+                // Р‘Р°Р·РѕРІР°СЏ СЃС‚РѕРёРјРѕСЃС‚СЊ
                 decimal totalCost = basePrice * days * guestMultiplier;
 
-                // Добавляем дополнительные услуги
+                // Р”РѕР±Р°РІР»СЏРµРј РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ СѓСЃР»СѓРіРё
                 decimal additionalServices = 0;
 
                 if (chkBreakfast.Checked)
-                    additionalServices += 500 * days * guests; // завтрак за каждый день для каждого гостя
+                    additionalServices += 500 * days * guests; // Р·Р°РІС‚СЂР°Рє Р·Р° РєР°Р¶РґС‹Р№ РґРµРЅСЊ РґР»СЏ РєР°Р¶РґРѕРіРѕ РіРѕСЃС‚СЏ
 
                 if (chkWiFi.Checked)
-                    additionalServices += 200 * days; // Wi-Fi за каждый день
+                    additionalServices += 200 * days; // Wi-Fi Р·Р° РєР°Р¶РґС‹Р№ РґРµРЅСЊ
 
                 if (chkParking.Checked)
-                    additionalServices += 300 * days; // парковка за каждый день
+                    additionalServices += 300 * days; // РїР°СЂРєРѕРІРєР° Р·Р° РєР°Р¶РґС‹Р№ РґРµРЅСЊ
 
                 totalCost += additionalServices;
 
-                // Выводим результат
-                tbResult.Text = totalCost.ToString("0") + " руб.";
+                // Р’С‹РІРѕРґРёРј СЂРµР·СѓР»СЊС‚Р°С‚
+                tbResult.Text = totalCost.ToString("0") + " СЂСѓР±.";
             }
             catch (FormatException)
             {
-                MessageBox.Show("Пожалуйста, введите корректные числовые значения", "Ошибка ввода",
+                MessageBox.Show("РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РІРІРµРґРёС‚Рµ РєРѕСЂСЂРµРєС‚РЅС‹Рµ С‡РёСЃР»РѕРІС‹Рµ Р·РЅР°С‡РµРЅРёСЏ", "РћС€РёР±РєР° РІРІРѕРґР°",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка",
+                MessageBox.Show($"РџСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР°: {ex.Message}", "РћС€РёР±РєР°",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
