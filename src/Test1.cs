@@ -138,7 +138,6 @@ namespace TestProject1
         [TestMethod]
         public void TestMaximumValues()
         {
-            // Находим элементы
             var daysTextBox = driver.FindElementByAccessibilityId("days_of_stay_tb");
             var categoryTextBox = driver.FindElementByAccessibilityId("category_tb");
             var capacityTextBox = driver.FindElementByAccessibilityId("capacity_tb");
