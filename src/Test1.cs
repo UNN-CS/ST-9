@@ -9,7 +9,7 @@ namespace HotelBookingTests
     public class HotelCostCalculatorTests
     {
         private const string AppiumServer = "http://127.0.0.1:4723/";
-        private const string ApplicationPath = @"D:\WindowsFormsApp2\WindowsForms\bin\Debug\WindowsForms.exe";
+        private const string ApplicationPath = @"C:\Users\кубв\Desktop\laba_9\HotelCalculator\HotelCalculator\bin\Debug\net9.0-windows\HotelCalculator.exe";
         private WindowsDriver<WindowsElement> _driver;
 
         [TestInitialize]
