@@ -2,222 +2,211 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
-using System.Threading;
 
-namespace HotelCalculators
+namespace HotelBookingTests
 {
     [TestClass]
-    public class HotelCalculator
+    public class HotelCostCalculatorTests
     {
-        private const string DriverUrl = "http://127.0.0.1:4723/";
-        private const string AppPath = @"D:\WindowsFormsApp2\WindowsForms\bin\Debug\WindowsForms.exe";
-        private WindowsDriver<WindowsElement> session;
+        private const string AppiumServer = "http://127.0.0.1:4723/";
+        private const string ApplicationPath = @"D:\WindowsFormsApp2\WindowsForms\bin\Debug\WindowsForms.exe";
+        private WindowsDriver<WindowsElement> _driver;
 
         [TestInitialize]
-        public void LaunchApp()
+        public void InitializeTestSession()
         {
-            var options = new AppiumOptions();
-            options.AddAdditionalCapability("app", AppPath);
-            options.AddAdditionalCapability("deviceName", "WindowsPC");
-            session = new WindowsDriver<WindowsElement>(new Uri(DriverUrl), options);
+            var appiumOptions = new AppiumOptions();
+            appiumOptions.AddAdditionalCapability("app", ApplicationPath);
+            appiumOptions.AddAdditionalCapability("deviceName", "WindowsPC");
+            _driver = new WindowsDriver<WindowsElement>(new Uri(AppiumServer), appiumOptions);
 
-            for (int i = 0; i < 10; i++)
-            {
-                try
-                {
-                    session.FindElementByAccessibilityId("tbDays");
-                    return;
-                }
-                catch { Thread.Sleep(200); }
-            }
-
-            Assert.Fail("Форма не загрузилась.");
+            WaitForElementToLoad("tbDays");
         }
 
         [TestCleanup]
-        public void CloseApp()
+        public void TerminateTestSession()
         {
-            session?.Quit();
+            try
+            {
+                _driver?.CloseApp();
+                _driver?.Dispose();
+            }
+            catch { /* Игнорируем ошибки при закрытии */ }
         }
 
-        private void FillInput(string id, string value)
+        private void WaitForElementToLoad(string elementId, int timeoutMs = 2000)
         {
-            var element = session.FindElementByAccessibilityId(id);
+            var wait = new DefaultWait<WindowsDriver<WindowsElement>>(_driver)
+            {
+                Timeout = TimeSpan.FromMilliseconds(timeoutMs),
+                PollingInterval = TimeSpan.FromMilliseconds(200)
+            };
+            wait.IgnoreExceptionTypes(typeof(WebDriverException));
+
+            wait.Until(driver => driver.FindElementByAccessibilityId(elementId));
+        }
+
+        private void SetInputValue(string fieldId, string value)
+        {
+            var element = _driver.FindElementByAccessibilityId(fieldId);
             element.Clear();
             element.SendKeys(value);
         }
 
-        private void TriggerCalculation()
+        private void ClickCalculateButton()
         {
-            try
-            {
-                var resultField = session.FindElementByAccessibilityId("tbResult");
-                if (resultField.Enabled)
-                    resultField.Clear();
-            }
-            catch
-            {
-            }
-
-            session.FindElementByAccessibilityId("btnCalculate").Click();
-            Thread.Sleep(500); // дать времени результату обновиться
+            _driver.FindElementByAccessibilityId("btnCalculate").Click();
+            System.Threading.Thread.Sleep(300);
         }
 
-
-
-        private void AssertResult(string expected)
+        private void VerifyCalculationResult(string expectedValue)
         {
-            var result = session.FindElementByAccessibilityId("tbResult").Text;
-
-            if (result != expected)
-                Console.WriteLine($"[DEBUG] Expected: {expected}, Actual: {result}");
-
-            Assert.AreEqual(expected, result);
+            var resultElement = _driver.FindElementByAccessibilityId("tbResult");
+            Assert.AreEqual(expectedValue, resultElement.Text.Trim());
         }
-
 
         [TestMethod]
         public void FullPackageWithSafeAndBreakfast()
         {
-            FillInput("tbDays", "2");
-            FillInput("tbCategory", "1");
-            FillInput("tbPlaces", "2");
-            FillInput("tbSafe", "да");
-            FillInput("tbBreakfast", "да");
-            TriggerCalculation();
-            AssertResult("18900");
+            SetInputValue("tbDays", "3");  
+            SetInputValue("tbCategory", "1");
+            SetInputValue("tbPlaces", "1"); 
+            SetInputValue("tbSafe", "да");
+            SetInputValue("tbBreakfast", "да");
+            ClickCalculateButton();
+            VerifyCalculationResult("14850"); 
         }
 
         [TestMethod]
         public void EconomyRoomSingleGuestNoExtras()
         {
-            FillInput("tbDays", "1");
-            FillInput("tbCategory", "2");
-            FillInput("tbPlaces", "1");
-            FillInput("tbSafe", "нет");
-            FillInput("tbBreakfast", "нет");
-            TriggerCalculation();
-            AssertResult("2800");
+            SetInputValue("tbDays", "2"); 
+            SetInputValue("tbCategory", "3"); 
+            SetInputValue("tbPlaces", "1");
+            SetInputValue("tbSafe", "нет");
+            SetInputValue("tbBreakfast", "нет");
+            ClickCalculateButton();
+            VerifyCalculationResult("3600"); 
         }
 
         [TestMethod]
         public void SafeOptionOnlyWithLowRate()
         {
-            FillInput("tbDays", "3");
-            FillInput("tbCategory", "3");
-            FillInput("tbPlaces", "2");
-            FillInput("tbSafe", "да");
-            FillInput("tbBreakfast", "нет");
-            TriggerCalculation();
-            AssertResult("11500");
+            SetInputValue("tbDays", "2"); 
+            SetInputValue("tbCategory", "3");
+            SetInputValue("tbPlaces", "1"); 
+            SetInputValue("tbSafe", "да");
+            SetInputValue("tbBreakfast", "нет");
+            ClickCalculateButton();
+            VerifyCalculationResult("4300"); 
         }
 
         [TestMethod]
         public void BreakfastOnlyOptionApplied()
         {
-            FillInput("tbDays", "2");
-            FillInput("tbCategory", "2");
-            FillInput("tbPlaces", "2");
-            FillInput("tbSafe", "нет");
-            FillInput("tbBreakfast", "да");
-            TriggerCalculation();
-            AssertResult("12600");
+            SetInputValue("tbDays", "1"); 
+            SetInputValue("tbCategory", "2");
+            SetInputValue("tbPlaces", "3"); 
+            SetInputValue("tbSafe", "нет");
+            SetInputValue("tbBreakfast", "да");
+            ClickCalculateButton();
+            VerifyCalculationResult("10500"); 
         }
 
         [TestMethod]
         public void InvalidDaysShouldFail()
         {
-            FillInput("tbDays", "abc");
-            FillInput("tbCategory", "1");
-            FillInput("tbPlaces", "2");
-            FillInput("tbSafe", "да");
-            FillInput("tbBreakfast", "да");
-            TriggerCalculation();
-            AssertResult("");
+            SetInputValue("tbDays", "-5"); 
+            SetInputValue("tbCategory", "1");
+            SetInputValue("tbPlaces", "2");
+            SetInputValue("tbSafe", "да");
+            SetInputValue("tbBreakfast", "да");
+            ClickCalculateButton();
+            VerifyCalculationResult("");
         }
 
         [TestMethod]
         public void MinimumValidInputValues()
         {
-            FillInput("tbDays", "1");
-            FillInput("tbCategory", "3");
-            FillInput("tbPlaces", "1");
-            FillInput("tbSafe", "нет");
-            FillInput("tbBreakfast", "нет");
-            TriggerCalculation();
-            AssertResult("1800");
+            SetInputValue("tbDays", "1");
+            SetInputValue("tbCategory", "3");
+            SetInputValue("tbPlaces", "2"); 
+            SetInputValue("tbSafe", "нет");
+            SetInputValue("tbBreakfast", "нет");
+            ClickCalculateButton();
+            VerifyCalculationResult("3600"); 
         }
 
         [TestMethod]
         public void MaximumLoadWithAllExtras()
         {
-            FillInput("tbDays", "10");
-            FillInput("tbCategory", "1");
-            FillInput("tbPlaces", "3");
-            FillInput("tbSafe", "да");
-            FillInput("tbBreakfast", "да");
-            TriggerCalculation();
-            AssertResult("137200");
+            SetInputValue("tbDays", "7"); 
+            SetInputValue("tbCategory", "1");
+            SetInputValue("tbPlaces", "2");
+            SetInputValue("tbSafe", "да");
+            SetInputValue("tbBreakfast", "да");
+            ClickCalculateButton();
+            VerifyCalculationResult("65100");
         }
 
         [TestMethod]
         public void SafeOptionWithCapitalLetters()
         {
-            FillInput("tbDays", "1");
-            FillInput("tbCategory", "2");
-            FillInput("tbPlaces", "1");
-            FillInput("tbSafe", "Да");
-            FillInput("tbBreakfast", "нет");
-            TriggerCalculation();
-            AssertResult("3500");
+            SetInputValue("tbDays", "4"); 
+            SetInputValue("tbCategory", "2");
+            SetInputValue("tbPlaces", "1");
+            SetInputValue("tbSafe", "Да");
+            SetInputValue("tbBreakfast", "нет");
+            ClickCalculateButton();
+            VerifyCalculationResult("11900"); 
         }
 
         [TestMethod]
         public void BreakfastOptionWithCapitalLetters()
         {
-            FillInput("tbDays", "2");
-            FillInput("tbCategory", "2");
-            FillInput("tbPlaces", "1");
-            FillInput("tbSafe", "нет");
-            FillInput("tbBreakfast", "Да");
-            TriggerCalculation();
-            AssertResult("6300");
+            SetInputValue("tbDays", "3"); 
+            SetInputValue("tbCategory", "2");
+            SetInputValue("tbPlaces", "2"); 
+            SetInputValue("tbSafe", "нет");
+            SetInputValue("tbBreakfast", "Да");
+            ClickCalculateButton();
+            VerifyCalculationResult("21000"); 
         }
 
         [TestMethod]
         public void ZeroDaysShouldGiveNoRoomCharge()
         {
-            FillInput("tbDays", "0");
-            FillInput("tbCategory", "1");
-            FillInput("tbPlaces", "2");
-            FillInput("tbSafe", "да");
-            FillInput("tbBreakfast", "да");
-            TriggerCalculation();
-            AssertResult("");
+            SetInputValue("tbDays", "0");
+            SetInputValue("tbCategory", "2"); 
+            SetInputValue("tbPlaces", "1"); 
+            SetInputValue("tbSafe", "да");
+            SetInputValue("tbBreakfast", "да");
+            ClickCalculateButton();
+            VerifyCalculationResult("");
         }
 
         [TestMethod]
         public void InvalidCategoryShouldBeHandled()
         {
-            FillInput("tbDays", "2");
-            FillInput("tbCategory", "5");
-            FillInput("tbPlaces", "1");
-            FillInput("tbSafe", "нет");
-            FillInput("tbBreakfast", "нет");
-            TriggerCalculation();
-            AssertResult("");
+            SetInputValue("tbDays", "2");
+            SetInputValue("tbCategory", "0"); 
+            SetInputValue("tbPlaces", "1");
+            SetInputValue("tbSafe", "нет");
+            SetInputValue("tbBreakfast", "нет");
+            ClickCalculateButton();
+            VerifyCalculationResult("");
         }
 
         [TestMethod]
         public void InvalidPlacesInputShouldFail()
         {
-            FillInput("tbDays", "2");
-            FillInput("tbCategory", "2");
-            FillInput("tbPlaces", "abc");
-            FillInput("tbSafe", "да");
-            FillInput("tbBreakfast", "нет");
-            TriggerCalculation();
-            AssertResult("");
+            SetInputValue("tbDays", "2");
+            SetInputValue("tbCategory", "2");
+            SetInputValue("tbPlaces", "-1"); 
+            SetInputValue("tbSafe", "да");
+            SetInputValue("tbBreakfast", "нет");
+            ClickCalculateButton();
+            VerifyCalculationResult("");
         }
     }
 }

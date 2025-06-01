@@ -1,74 +1,83 @@
 using System;
 using System.Windows.Forms;
 
-namespace WindowsForms
+namespace WindowsFormsApp
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
-            InitializeComponent();
+            InitializeUIComponents();
         }
 
-        private void btnCalculate_Click(object sender, EventArgs e)
+        private void OnCalculateButtonClicked(object sender, EventArgs e)
         {
-            tbResult.Text = "";
+            ResetResultField();
 
-            bool parsedDays = int.TryParse(tbDays.Text, out int days);
-            bool parsedCategory = int.TryParse(tbCategory.Text, out int category);
-            bool parsedPlaces = int.TryParse(tbPlaces.Text, out int people);
+            var daysValid = int.TryParse(daysField.Text, out var daysCount);
+            var categoryValid = int.TryParse(categoryField.Text, out var categoryId);
+            var guestsValid = int.TryParse(guestsField.Text, out var guestsNumber);
 
-            if (!parsedDays || !parsedCategory || !parsedPlaces || days < 0 || people < 0)
+            if (!ValidateInputs(daysValid, categoryValid, guestsValid, daysCount, guestsNumber))
             {
-                ShowWarning();
+                ShowInputError();
                 return;
             }
 
-            string safeText = tbSafe.Text.Trim().ToLowerInvariant();
-            string breakfastText = tbBreakfast.Text.Trim().ToLowerInvariant();
+            ProcessRoomBooking(daysCount, categoryId, guestsNumber);
+        }
 
-            bool withSafe = safeText == "да";
-            bool withBreakfast = breakfastText == "да";
+        private bool ValidateInputs(bool daysValid, bool categoryValid, bool guestsValid, int days, int guests)
+        {
+            return daysValid && categoryValid && guestsValid && days >= 0 && guests >= 0;
+        }
 
-            int rate;
-            switch (category)
+        private void ProcessRoomBooking(int days, int category, int guests)
+        {
+            var safeIncluded = safeField.Text.Trim().Equals("да", StringComparison.OrdinalIgnoreCase);
+            var breakfastIncluded = breakfastField.Text.Trim().Equals("да", StringComparison.OrdinalIgnoreCase);
+
+            var roomRate = GetCategoryRate(category);
+            if (roomRate < 0)
             {
-                case 1:
-                    rate = 4200;
-                    break;
-                case 2:
-                    rate = 2800;
-                    break;
-                case 3:
-                    rate = 1800;
-                    break;
-                default:
-                    rate = -1;
-                    break;
-            }
-
-
-            if (rate < 0)
-            {
-                ShowWarning();
+                ShowInputError();
                 return;
             }
 
-            int total = rate * days * people;
-
-            if (withSafe)
-                total += 700;
-
-            if (withBreakfast)
-                total += 350 * people * days;
-
-            tbResult.Text = total.ToString();
+            var total = ComputeTotalCost(roomRate, days, guests, safeIncluded, breakfastIncluded);
+            resultField.Text = total.ToString();
         }
 
-        private void ShowWarning()
+        private int GetCategoryRate(int category)
         {
-            tbResult.Text = "";
-            MessageBox.Show("Пожалуйста, введите корректные данные.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return category switch
+            {
+                1 => 4200,
+                2 => 2800,
+                3 => 1800,
+                _ => -1
+            };
+        }
+
+        private int ComputeTotalCost(int rate, int days, int guests, bool safe, bool breakfast)
+        {
+            var baseCost = rate * days * guests;
+            if (safe) baseCost += 700;
+            if (breakfast) baseCost += 350 * guests * days;
+            return baseCost;
+        }
+
+        private void ResetResultField()
+        {
+            resultField.Text = string.Empty;
+        }
+
+        private void ShowInputError()
+        {
+            MessageBox.Show("Введены неверные данные. Проверьте правильность ввода.",
+                          "Ошибка ввода",
+                          MessageBoxButtons.OK,
+                          MessageBoxIcon.Warning);
         }
     }
 }
